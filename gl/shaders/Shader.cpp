@@ -81,6 +81,11 @@ void gl::Shader::loadFloat(int location, float value)
     glUniform1f(location, value);
 }
 
+void gl::Shader::loadVector2(int location, glm::vec2 vector)
+{
+    glUniform2f(location, vector.x, vector.y);
+}
+
 void gl::Shader::loadVector3(int location, glm::vec3 vector)
 {
     glUniform3f(location, vector.x, vector.y, vector.z);

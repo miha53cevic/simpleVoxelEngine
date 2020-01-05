@@ -25,6 +25,7 @@ namespace gl
         int getUniformLocation(std::string uniform_name);
 
         void loadFloat(int location, float value);
+        void loadVector2(int location, glm::vec2 vector);
         void loadVector3(int location, glm::vec3 vector);
         void loadVector4(int location, glm::vec4 vector);
         void loadBool(int location, bool value);

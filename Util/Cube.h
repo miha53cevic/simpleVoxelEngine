@@ -21,108 +21,108 @@ namespace Cube
         };
     };
 
-    enum class CubeFace
+    static enum class CubeFace
     {
         TOP, BOTTOM, LEFT, RIGHT, BACK, FRONT
     };
 
-    Face getCubeFace(CubeFace face)
+    static Face getCubeFace(CubeFace face)
     {
         if (face == CubeFace::BACK)
             return Face {
                 {
-                    0.0f,1.0f,0.0f,
-                    0.0f,0.0f,0.0f,
-                    1.0f,0.0f,0.0f,
-                    1.0f,1.0f,0.0f
+                    1,1,0,
+                    1,0,0,
+                    0,0,0,
+                    0,1,0
                 },
             };
         else if (face == CubeFace::FRONT)
             return Face{
                 {
-                    0.0f,1.0f,1.0f,
-                    0.0f,0.0f,1.0f,
-                    1.0f,0.0f,1.0f,
-                    1.0f,1.0f,1.0f
+                    0,1,1,
+                    0,0,1,
+                    1,0,1,
+                    1,1,1
                 }
             };
         else if (face == CubeFace::RIGHT)
             return Face{
                 {
-                    1.0f,1.0f,0.0f,
-                    1.0f,0.0f,0.0f,
-                    1.0f,0.0f,1.0f,
-                    1.0f,1.0f,1.0f
+                    1,1,1,
+                    1,0,1,
+                    1,0,0,
+                    1,1,0
                 }
             };
         else if (face == CubeFace::LEFT)
             return Face{
                 {
-                    0.0f,1.0f,0.0f,
-                    0.0f,0.0f,0.0f,
-                    0.0f,0.0f,1.0f,
-                    0.0f,1.0f,1.0f
+                    0,1,0,
+                    0,0,0,
+                    0,0,1,
+                    0,1,1
                 }
             };
         else if (face == CubeFace::TOP)
             return Face{
                 {
-                    0.0f,1.0f,1.0f,
-                    0.0f,1.0f,0.0f,
-                    1.0f,1.0f,0.0f,
-                    1.0f,1.0f,1.0f
+                    0,1,1,
+                    1,1,1,
+                    1,1,0,
+                    0,1,0
                 }
             };
         else if (face == CubeFace::BOTTOM)
             return Face{
                 {
-                    0.0f,0.0f,1.0f,
-                    0.0f,0.0f,0.0f,
-                    1.0f,0.0f,0.0f,
-                    1.0f,0.0f,1.0f
+                    0,0,1,
+                    0,0,0,
+                    1,0,0,
+                    1,0,1
                 }
             };
     }
 
-    std::vector<GLfloat> verticies = {
+    static std::vector<GLfloat> verticies = {
         // Back face
-        0.0f,1.0f,0.0f,
-        0.0f,0.0f,0.0f,
-        1.0f,0.0f,0.0f,
-        1.0f,1.0f,0.0f,
+        1,1,0,
+        1,0,0,
+        0,0,0,
+        0,1,0,
 
         // Front face
-        0.0f,1.0f,1.0f,
-        0.0f,0.0f,1.0f,
-        1.0f,0.0f,1.0f,
-        1.0f,1.0f,1.0f,
+        0,1,1,
+        0,0,1,
+        1,0,1,
+        1,1,1,
 
         // Right face
-        1.0f,1.0f,0.0f,
-        1.0f,0.0f,0.0f,
-        1.0f,0.0f,1.0f,
-        1.0f,1.0f,1.0f,
+        1,1,1,
+        1,0,1,
+        1,0,0,
+        1,1,0,
 
         // Left Face
-        0.0f,1.0f,0.0f,
-        0.0f,0.0f,0.0f,
-        0.0f,0.0f,1.0f,
-        0.0f,1.0f,1.0f,
+        0,1,0,
+        0,0,0,
+        0,0,1,
+        0,1,1,
 
         // Top face
-        0.0f,1.0f,1.0f,
-        0.0f,1.0f,0.0f,
-        1.0f,1.0f,0.0f,
-        1.0f,1.0f,1.0f,
+        0,1,1,
+        1,1,1,
+        1,1,0,
+        0,1,0,
 
         // Bottom face
-        0.0f,0.0f,1.0f,
-        0.0f,0.0f,0.0f,
-        1.0f,0.0f,0.0f,
-        1.0f,0.0f,1.0f
+        0,0,1,
+        0,0,0,
+        1,0,0,
+        1,0,1
     };
 
-     std::vector<GLfloat> textureCoords = {
+    static std::vector<GLfloat> textureCoords = {
          0,0,
          0,1,
          1,1,
@@ -154,7 +154,7 @@ namespace Cube
          1,0
      };
 
-     std::vector<GLuint> indicies = {
+    static std::vector<GLuint> indicies = {
          0,1,3,
          3,1,2,
          4,5,7,

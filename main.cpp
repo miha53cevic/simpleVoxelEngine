@@ -1,5 +1,6 @@
 #include "window/window.h"
 #include "Util/Ray.h"
+#include "Util/Cube.h"
 
 #include "world/ChunkManager.h"
 
@@ -28,8 +29,7 @@ int main()
     simple_shader.setUniformLocation("projectionMatrix");
     simple_shader.setUniformLocation("viewMatrix");
 
-    gl::Texture texture;
-    texture.loadTexture("Resources/textures/tex1.png");
+    gl::TextureAtlas atlas("Resources/textures/high_res_grass.png", 512, 256);
 
     glm::mat4 projectionMatrix = Math::createProjectionMatrix(glm::vec2(window.ScreenWidth(), window.ScreenHeight()), 90, 0.1, 1000);
 
@@ -50,8 +50,12 @@ int main()
     Entity selectedBlockBox;
 
     ChunkManager chunk_manager;
-    chunk_manager.generate(2, 1, 2);
-    
+    chunk_manager.generate(8, 1, 8, &atlas);
+
+    // Delete faces in the inside of the mesh
+    // Vertecies must be Counter-Clock Wise
+    glEnable(GL_CULL_FACE);
+        
     bool wireframe = false;
     bool running = true;
     while (running)
@@ -181,7 +185,7 @@ int main()
         };
 
         // Render the chunk
-        chunk_manager.render(&shader, &texture, &camera);
+        chunk_manager.render(&shader, &atlas.texture, &camera);
 
         // Draw the border box of current voxel
         simple_shader.Bind();

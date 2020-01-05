@@ -12,7 +12,7 @@ ChunkManager::~ChunkManager()
         delete chunk;
 }
 
-void ChunkManager::generate(int width, int height, int depth)
+void ChunkManager::generate(int width, int height, int depth, gl::TextureAtlas* atlas)
 {
     for (int x = 0; x < width; x++)
     {
@@ -21,8 +21,9 @@ void ChunkManager::generate(int width, int height, int depth)
             for (int z = 0; z < depth; z++)
             {
                 // Create the chunks
-                auto* temp_chunk = new Chunk::Chunk();
+                auto* temp_chunk = new Chunk::Chunk(atlas);
                 temp_chunk->setPosition(x * Chunk::Width, y * Chunk::Height, z * Chunk::Depth);
+                temp_chunk->generateTerrain(24, 8, Chunk::Height - 8);
 
                 m_chunks.push_back(temp_chunk);
             }

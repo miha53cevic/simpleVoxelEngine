@@ -7,8 +7,8 @@ public:
     ChunkManager();
     ~ChunkManager();
 
-    void generate(int width, int height, int depth);
-    void render(gl::Shader * shader, gl::Texture * texture, Camera * camera);
+    void generate(int width, int height, int depth, gl::TextureAtlas* atlas);
+    void render(gl::Shader* shader, gl::Texture* texture, Camera* camera);
 
     std::uint8_t  getBlock(int x, int y, int z);
     void          setBlock(int x, int y, int z, std::uint8_t type);
