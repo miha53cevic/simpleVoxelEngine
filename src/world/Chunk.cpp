@@ -1,6 +1,7 @@
 #include "Chunk.h"
 
 #include "../Util/Cube.h"
+#include "BlockManager.h"
 
 #include "glm/gtc/noise.hpp"
 
@@ -62,8 +63,14 @@ void Chunk::Chunk::generateTerrain(float freq, float minAmp, float maxAmp)
 
             int height = getNoise(posX + x, posZ + z);
 
-            for (int y = 0; y < height; y++)
-                m_blocks[x][y][z] = 1;
+            for (int y = 0; y < height - 1; y++)
+            {
+                if (height >= 3 && y < height - 3) m_blocks[x][y][z] = BLOCK::STONE;
+                else                               m_blocks[x][y][z] = BLOCK::DIRT;
+            }
+
+            // Top layer is grass
+            m_blocks[x][height - 1][z] = BLOCK::GRASS;
         }
     }
 
@@ -121,21 +128,10 @@ void Chunk::Chunk::generateChunkMesh()
                     }
 
                     // Use the texture atlas for each face
-                    if (face_name == Cube::CubeFace::LEFT || face_name == Cube::CubeFace::RIGHT || face_name == Cube::CubeFace::BACK || face_name == Cube::CubeFace::FRONT)
-                    {
-                        auto texCoords = m_textureAtlas->getTextureCoords({ 1, 0 });
-                        temp_textureCoords.insert(temp_textureCoords.end(), texCoords.begin(), texCoords.end());
-                    }
-                    else if (face_name == Cube::CubeFace::TOP)
-                    {
-                        auto texCoords = m_textureAtlas->getTextureCoords({ 0, 0 });
-                        temp_textureCoords.insert(temp_textureCoords.end(), texCoords.begin(), texCoords.end());
-                    }
-                    else if (face_name == Cube::CubeFace::BOTTOM)
-                    {
-                        auto texCoords = m_textureAtlas->getTextureCoords({ 0, 1 });
-                        temp_textureCoords.insert(temp_textureCoords.end(), texCoords.begin(), texCoords.end());
-                    }
+                    glm::ivec2 textureIndex = BlockManager::getTextureAtlasCoords((BLOCK)m_blocks[x][y][z], face_name);
+
+                    auto texCoords = m_textureAtlas->getTextureCoords(textureIndex);
+                    temp_textureCoords.insert(temp_textureCoords.end(), texCoords.begin(), texCoords.end());
 
                     temp_indicies.push_back(indicieCount);
                     temp_indicies.push_back(indicieCount + 1);

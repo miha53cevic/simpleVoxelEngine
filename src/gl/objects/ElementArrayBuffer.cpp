@@ -1,5 +1,7 @@
 #include "ElementArrayBuffer.h"
 
+#include <stdio.h>
+
 gl::ElementArrayBuffer::ElementArrayBuffer()
 {
     glGenBuffers(1, &EBO);

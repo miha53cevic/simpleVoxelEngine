@@ -1,6 +1,6 @@
 #include "window/window.h"
 #include "Util/Ray.h"
-#include "Util/Cube.h"
+#include "util/Cube.h"
 
 #include "world/ChunkManager.h"
 
@@ -14,7 +14,7 @@ int main()
     shader.setAttribute(0, "position");
     shader.setAttribute(1, "textureCoords");
     
-    shader.createProgram("glsl/shader1");
+    shader.createProgram("deps/glsl/shader1");
 
     shader.setUniformLocation("transformationMatrix");
     shader.setUniformLocation("projectionMatrix");
@@ -23,13 +23,13 @@ int main()
     gl::Shader simple_shader;
     simple_shader.setAttribute(0, "position");
 
-    simple_shader.createProgram("glsl/simple_colour");
+    simple_shader.createProgram("deps/glsl/simple_colour");
 
     simple_shader.setUniformLocation("transformationMatrix");
     simple_shader.setUniformLocation("projectionMatrix");
     simple_shader.setUniformLocation("viewMatrix");
 
-    gl::TextureAtlas atlas("Resources/textures/high_res_grass.png", 512, 256);
+    gl::TextureAtlas atlas("deps/Resources/textures/textureAtlas.png", 2048, 256);
 
     glm::mat4 projectionMatrix = Math::createProjectionMatrix(glm::vec2(window.ScreenWidth(), window.ScreenHeight()), 90, 0.1, 1000);
 

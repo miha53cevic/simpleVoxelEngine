@@ -1,13 +1,13 @@
 #include "ChunkManager.h"
 
+#include "../Util/Logs.h"
+
 ChunkManager::ChunkManager()
 {
 }
 
 ChunkManager::~ChunkManager()
 {
-    printf("ChunkManager: Destructor called!");
-
     for (auto& chunk : m_chunks)
         delete chunk;
 }

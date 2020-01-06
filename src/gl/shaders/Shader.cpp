@@ -12,6 +12,8 @@ gl::Shader::Shader()
 
 gl::Shader::~Shader()
 {
+    printf("Shader: Deconstructor called");
+
     for (unsigned int i = 0; i < NUM_SHADERS; i++)
     {
         glDetachShader(m_program, m_shaders[i]);

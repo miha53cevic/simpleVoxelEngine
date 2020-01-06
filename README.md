@@ -17,3 +17,7 @@ A voxel like game made whilst learning opengl
 ### Added backface culling and better textures
 
 ![](screenshots/added_culling_and_better_textures.png)
+
+### Added layers to the chunks
+
+![](screenshots/added_layers.png)

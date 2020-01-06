@@ -1,5 +1,7 @@
 #include "Texture.h"
 
+#include <stdio.h>
+
 gl::Texture::Texture()
 {
 }

@@ -8,7 +8,6 @@ gl::VertexBufferObject::VertexBufferObject()
 gl::VertexBufferObject::~VertexBufferObject()
 {
     glDeleteBuffers(1, &VBO);
-    printf("VBO: Deconstructor called\n");
 }
 
 void gl::VertexBufferObject::setData(const std::vector<GLfloat>& data, int attributeID, int size, int DrawMode)
