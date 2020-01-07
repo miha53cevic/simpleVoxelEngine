@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.10)
 project(Woxel)
 
 #set(CMAKE_BUILD_TYPE Debug)
-#set(CMAKE_BUILD_TYPE Release)
+set(CMAKE_BUILD_TYPE Release)
 
 # Put executable inside of bin folder
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -25,7 +25,7 @@ add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 set(CMAKE_CXX_STANDARD_REQUIRED 17)
 
 # Use static SFML
-set(SFML_STATIC_LIBRARIES TRUE)
+# set(SFML_STATIC_LIBRARIES TRUE)
 
 # Add dependencies if build succeeds
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
@@ -44,7 +44,7 @@ include_directories(
 	"${CMAKE_SOURCE_DIR}/libs/GL3.3_Core/include"
 )
 
-target_link_libraries(${PROJECT_NAME} opengl32 GLAD)
+target_link_libraries(${PROJECT_NAME} OpenGL::GL GLAD ${CMAKE_DL_LIBS})
 
 # Find SFML
 find_package(SFML 2.5 COMPONENTS graphics window system REQUIRED)
