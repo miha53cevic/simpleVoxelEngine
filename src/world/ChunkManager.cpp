@@ -23,7 +23,7 @@ void ChunkManager::generate(int width, int height, int depth, gl::TextureAtlas* 
                 // Create the chunks
                 auto* temp_chunk = new Chunk::Chunk(atlas);
                 temp_chunk->setPosition(x * Chunk::Width, y * Chunk::Height, z * Chunk::Depth);
-                temp_chunk->generateTerrain(24, 8, Chunk::Height - 8);
+                temp_chunk->generateTerrain(24, 8, Chunk::Height - 64);
 
                 m_chunks.push_back(temp_chunk);
             }

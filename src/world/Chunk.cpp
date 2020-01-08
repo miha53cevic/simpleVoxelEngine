@@ -3,8 +3,6 @@
 #include "../Util/Cube.h"
 #include "BlockManager.h"
 
-#include "glm/gtc/noise.hpp"
-
 Chunk::Chunk::Chunk(gl::TextureAtlas * atlas)
     : m_textureAtlas(atlas)
 {
@@ -48,11 +46,6 @@ void Chunk::Chunk::Render(gl::Shader * shader, gl::Texture * texture, Camera * c
 
 void Chunk::Chunk::generateTerrain(float freq, float minAmp, float maxAmp)
 {
-    auto getNoise = [&](float x, float z) -> int
-    {
-        return abs(glm::perlin(glm::vec2(x / freq, z / freq)) * maxAmp) + minAmp;
-    };
-
     // Fill in the chunk with blocks
     for (int x = 0; x < Width; x++)
     {
@@ -61,7 +54,7 @@ void Chunk::Chunk::generateTerrain(float freq, float minAmp, float maxAmp)
             int posX = m_entity.position.x;
             int posZ = m_entity.position.z;
 
-            int height = getNoise(posX + x, posZ + z);
+            int height = Math::simplex2((posX + x) / freq, (posZ + z) / freq, 4, 1.5f, 0.1f) * maxAmp + minAmp;
 
             for (int y = 0; y < height - 1; y++)
             {

@@ -163,7 +163,7 @@ int main()
 
         window.clear();
 
-        camera.Update(elapsed, window.getWindow());
+        camera.Update(elapsed, window.getWindow(), 25);
 
         // ...Drawing
         auto Draw = [&](Entity* entity, gl::Shader* shader, gl::Texture* texture)

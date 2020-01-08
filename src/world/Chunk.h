@@ -8,7 +8,7 @@ class ChunkManager;
 
 namespace Chunk
 {
-    const int Width = 16, Height = 16, Depth = 16;
+    const int Width = 16, Height = 128, Depth = 16;
 
     class Chunk
     {

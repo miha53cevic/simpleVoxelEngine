@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/string_cast.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include "glm/gtc/noise.hpp"
 
 #include "Camera.h"
 
@@ -66,6 +67,44 @@ public:
     float static map(float s, float a1, float a2, float b1, float b2)
     {
         return b1 + ((s - a1) * (b2 - b1)) / (a2 - a1);
+    }
+
+    // Get 2D simplex noise
+    // - algorithm from: https://github.com/fogleman/Craft/blob/master/deps/noise/noise.c
+    // - octaves: how many times should you combine the noise
+    // - persistence: changes the height values (lower values add more height, higher values make the height deeper)
+    // - lacunarity: frequency of sample points (lower values adds noise closer, whilst higher values make the noise more distant)
+    float static simplex2(float x, float y, int octaves, float persistence, float lacunarity) 
+    {
+        float freq = 1.0f;
+        float amp = 1.0f;
+        float max = 1.0f;
+        float total = glm::simplex(glm::vec2(x, y));
+        int i;
+        for (i = 1; i < octaves; i++) {
+            freq *= lacunarity;
+            amp *= persistence;
+            max += amp;
+            total += glm::simplex(glm::vec2(x * freq, y * freq)) * amp;
+        }
+        return (1 + total / max) / 2;
+    }
+
+    // Get 3D simplex noise
+    float static simplex3(float x, float y, float z, int octaves, float persistence, float lacunarity)
+    {
+        float freq = 1.0f;
+        float amp = 1.0f;
+        float max = 1.0f;
+        float total = glm::simplex(glm::vec3(x, y, z));
+        int i;
+        for (i = 1; i < octaves; ++i) {
+            freq *= lacunarity;
+            amp *= persistence;
+            max += amp;
+            total += glm::simplex(glm::vec3(x * freq, y * freq, z * freq)) * amp;
+        }
+        return (1 + total / max) / 2;
     }
 };
 
