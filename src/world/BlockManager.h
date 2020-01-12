@@ -38,6 +38,19 @@ namespace BlockManager
             return glm::ivec2(3, 0);
 
             break;
+
+        case BLOCK::WOOD:
+            if (face == Cube::CubeFace::TOP || face == Cube::CubeFace::BOTTOM)
+                return glm::ivec2(4, 0);
+            if (face == Cube::CubeFace::LEFT || face == Cube::CubeFace::RIGHT || face == Cube::CubeFace::FRONT || face == Cube::CubeFace::BACK)
+                return glm::ivec2(5, 0);
+
+            break;
+
+        case BLOCK::LEAF:
+            return glm::ivec2(6, 0);
+
+            break;
         }
 
         return glm::ivec2(0, 0);

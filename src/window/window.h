@@ -15,7 +15,7 @@ public:
     void EnableFPSCounter();
     void EnableWireframe(bool wireframe);
 
-    void clear(float r = 0.2f, float g = 0.3f, float b = 0.3f, float a = 1.0f);
+    void clear(float r = 51, float g = 76.5f, float b = 76.5f, float a = 255);
     void display();
 
     sf::Time calculateElapsedTime();

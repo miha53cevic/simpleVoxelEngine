@@ -56,6 +56,11 @@ void Window::EnableWireframe(bool wireframe)
 
 void Window::clear(float r, float g, float b, float a)
 {
+    r /= 255;
+    g /= 255;
+    b /= 255;
+    a /= 255;
+
     // Enable the depth buffer
     glEnable(GL_DEPTH_TEST);
 

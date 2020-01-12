@@ -2,7 +2,7 @@
 #include <cstdint>
 
 #include "Entity.h"
-#include "../Util/Math.h"
+#include "../util/Math.h"
 
 class ChunkManager;
 
@@ -13,7 +13,7 @@ namespace Chunk
     class Chunk
     {
     public:
-        Chunk(gl::TextureAtlas* atlas);
+        Chunk(gl::TextureAtlas* atlas, ChunkManager* manager);
         ~Chunk();
 
         void Update();
@@ -35,8 +35,10 @@ namespace Chunk
         Entity m_entity;
 
         gl::TextureAtlas* m_textureAtlas;
+        ChunkManager*     m_chunkManager;
 
         void generateChunkMesh();
+        void generateTrees(std::vector< glm::ivec3> treeLocations);
     };
 }
 

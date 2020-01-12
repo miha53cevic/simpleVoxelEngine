@@ -1,6 +1,11 @@
 #pragma once
 #include "Chunk.h"
 
+enum Direction
+{
+    NORTH, EAST, WEST, SOUTH
+};
+
 class ChunkManager
 {
 public:
@@ -15,6 +20,8 @@ public:
 
     Chunk::Chunk* getChunkFromWorldPosition(int x, int y, int z);
     Chunk::Chunk* getChunkFromArray        (int x, int y, int z);
+
+    bool hasNeighbour(Chunk::Chunk* chunk, Direction dir);
 
     glm::uvec3 getChunksSize();
 

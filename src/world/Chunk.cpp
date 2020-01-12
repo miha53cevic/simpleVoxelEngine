@@ -1,19 +1,18 @@
 #include "Chunk.h"
 
-#include "../Util/Cube.h"
+#include "../util/Cube.h"
+#include "ChunkManager.h"
 #include "BlockManager.h"
 
-Chunk::Chunk::Chunk(gl::TextureAtlas * atlas)
+Chunk::Chunk::Chunk(gl::TextureAtlas * atlas, ChunkManager* manager)
     : m_textureAtlas(atlas)
+    , m_chunkManager(manager)
 {
     // Fill in the chunk with nothing at first
     for (int x = 0; x < Width; x++)
         for (int y = 0; y < Height; y++)
             for (int z = 0; z < Depth; z++)
                 m_blocks[x][y][z] = 0;
-
-    // Generate the mesh
-    generateChunkMesh();
 }
 
 Chunk::Chunk::~Chunk()
@@ -46,6 +45,8 @@ void Chunk::Chunk::Render(gl::Shader * shader, gl::Texture * texture, Camera * c
 
 void Chunk::Chunk::generateTerrain(float freq, float minAmp, float maxAmp)
 {
+    std::vector< glm::ivec3> treeLocations;
+
     // Fill in the chunk with blocks
     for (int x = 0; x < Width; x++)
     {
@@ -64,8 +65,16 @@ void Chunk::Chunk::generateTerrain(float freq, float minAmp, float maxAmp)
 
             // Top layer is grass
             m_blocks[x][height - 1][z] = BLOCK::GRASS;
+
+            // Save random tree locations
+            float rand = Math::fRandom(0, 1);
+            if (x == 0 || x == Width - 1 || z == 0 || z == Depth - 1) continue;
+            else if (rand >= 0.99) treeLocations.push_back({ x, height - 1, z });
         }
     }
+
+    // Add trees to the world
+    generateTrees(treeLocations);
 
     // Generate the mesh
     generateChunkMesh();
@@ -115,7 +124,7 @@ void Chunk::Chunk::generateChunkMesh()
                 {
                     for (int i = 0; i < face.verticies.size() / 3; i++)
                     {
-                        temp_verticies.push_back(face.verticies[0 + i * 3] + x); 
+                        temp_verticies.push_back(face.verticies[0 + i * 3] + x);
                         temp_verticies.push_back(face.verticies[1 + i * 3] + y);
                         temp_verticies.push_back(face.verticies[2 + i * 3] + z);
                     }
@@ -141,20 +150,20 @@ void Chunk::Chunk::generateChunkMesh()
                     continue;
 
                 // Draw the faces on the end of the chunk
-                if (x - 1 < 0)       createFace(Cube::getCubeFace(Cube::CubeFace::LEFT  ), Cube::CubeFace::LEFT,   x, y, z);
-                if (x + 1 >= Width)  createFace(Cube::getCubeFace(Cube::CubeFace::RIGHT ), Cube::CubeFace::RIGHT,  x, y, z);
+                if (x - 1 < 0)       createFace(Cube::getCubeFace(Cube::CubeFace::LEFT), Cube::CubeFace::LEFT, x, y, z);
+                if (x + 1 >= Width)  createFace(Cube::getCubeFace(Cube::CubeFace::RIGHT), Cube::CubeFace::RIGHT, x, y, z);
                 // no need to draw the bottom layer since it is never seen
-                if (y + 1 >= Height) createFace(Cube::getCubeFace(Cube::CubeFace::TOP   ), Cube::CubeFace::TOP,    x, y, z);
-                if (z - 1 < 0)       createFace(Cube::getCubeFace(Cube::CubeFace::BACK  ), Cube::CubeFace::BACK,   x, y, z);
-                if (z + 1 >= Depth)  createFace(Cube::getCubeFace(Cube::CubeFace::FRONT ), Cube::CubeFace::FRONT,  x, y, z);
+                if (y + 1 >= Height) createFace(Cube::getCubeFace(Cube::CubeFace::TOP), Cube::CubeFace::TOP, x, y, z);
+                if (z - 1 < 0)       createFace(Cube::getCubeFace(Cube::CubeFace::BACK), Cube::CubeFace::BACK, x, y, z);
+                if (z + 1 >= Depth)  createFace(Cube::getCubeFace(Cube::CubeFace::FRONT), Cube::CubeFace::FRONT, x, y, z);
 
                 // Draw faces only if the neighbouring block is air
-                if (x - 1 >= 0 && !m_blocks[x - 1][y][z])     createFace(Cube::getCubeFace(Cube::CubeFace::LEFT),   Cube::CubeFace::LEFT,   x, y, z);
-                if (x + 1 < Width && !m_blocks[x + 1][y][z])  createFace(Cube::getCubeFace(Cube::CubeFace::RIGHT),  Cube::CubeFace::RIGHT,  x, y, z);
+                if (x - 1 >= 0 && !m_blocks[x - 1][y][z])     createFace(Cube::getCubeFace(Cube::CubeFace::LEFT), Cube::CubeFace::LEFT, x, y, z);
+                if (x + 1 < Width && !m_blocks[x + 1][y][z])  createFace(Cube::getCubeFace(Cube::CubeFace::RIGHT), Cube::CubeFace::RIGHT, x, y, z);
                 if (y - 1 >= 0 && !m_blocks[x][y - 1][z])     createFace(Cube::getCubeFace(Cube::CubeFace::BOTTOM), Cube::CubeFace::BOTTOM, x, y, z);
-                if (y + 1 < Height && !m_blocks[x][y + 1][z]) createFace(Cube::getCubeFace(Cube::CubeFace::TOP),    Cube::CubeFace::TOP,    x, y, z);
-                if (z - 1 >= 0 && !m_blocks[x][y][z - 1])     createFace(Cube::getCubeFace(Cube::CubeFace::BACK),   Cube::CubeFace::BACK,   x, y, z);
-                if (z + 1 < Depth && !m_blocks[x][y][z + 1])  createFace(Cube::getCubeFace(Cube::CubeFace::FRONT),  Cube::CubeFace::FRONT,  x, y, z);
+                if (y + 1 < Height && !m_blocks[x][y + 1][z]) createFace(Cube::getCubeFace(Cube::CubeFace::TOP), Cube::CubeFace::TOP, x, y, z);
+                if (z - 1 >= 0 && !m_blocks[x][y][z - 1])     createFace(Cube::getCubeFace(Cube::CubeFace::BACK), Cube::CubeFace::BACK, x, y, z);
+                if (z + 1 < Depth && !m_blocks[x][y][z + 1])  createFace(Cube::getCubeFace(Cube::CubeFace::FRONT), Cube::CubeFace::FRONT, x, y, z);
             }
         }
     }
@@ -163,4 +172,26 @@ void Chunk::Chunk::generateChunkMesh()
     m_entity.setEBO(temp_indicies, GL_DYNAMIC_DRAW);
     m_entity.setVBO(temp_verticies, 0, 3, GL_DYNAMIC_DRAW);
     m_entity.setVBO(temp_textureCoords, 1, 2, GL_DYNAMIC_DRAW);
+}
+
+void Chunk::Chunk::generateTrees(std::vector< glm::ivec3> treeLocations)
+{
+    for (auto& treeLoc : treeLocations)
+    {
+        int treeHeight = Math::iRandom(4, 8);
+        for (int i = 0; i < treeHeight && treeLoc.y + (treeHeight - 1) < Height; i++)
+            m_blocks[treeLoc.x][treeLoc.y + i][treeLoc.z] = BLOCK::WOOD;
+
+        for (int x = -1; x <= 1; x++)
+        {
+            for (int y = 0; y < 3; y++)
+            {
+                for (int z = -1; z <= 1; z++)
+                {
+                    if (x == 0 && z == 0 && y != 2) continue;
+                    else m_blocks[treeLoc.x + x][treeLoc.y + y + (treeHeight - 3)][treeLoc.z + z] = BLOCK::LEAF;
+                }
+            }
+        }
+    }
 }

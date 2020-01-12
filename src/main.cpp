@@ -1,5 +1,5 @@
 #include "window/window.h"
-#include "Util/Ray.h"
+#include "util/Ray.h"
 #include "util/Cube.h"
 
 #include "world/ChunkManager.h"
