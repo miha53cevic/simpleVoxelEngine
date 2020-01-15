@@ -14,37 +14,6 @@ public:
 
     void Update(sf::Time elapsed, sf::Window* window, float MovementSpeed = 10, float Sensetivity = 0.25f)
     {
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-        {
-            // Calculate the directional vector and add it to camera position
-            m_position.z -= MovementSpeed * elapsed.asSeconds() * cosf(glm::radians(-m_rotation.y));
-            m_position.x -= MovementSpeed * elapsed.asSeconds() * sinf(glm::radians(-m_rotation.y));
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-        {
-            m_position.z += MovementSpeed * elapsed.asSeconds() * cosf(glm::radians(-m_rotation.y));
-            m_position.x += MovementSpeed * elapsed.asSeconds() * sinf(glm::radians(-m_rotation.y));
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-        {
-            m_position.x += MovementSpeed * elapsed.asSeconds() * cosf(glm::radians(-m_rotation.y));
-            m_position.z -= MovementSpeed * elapsed.asSeconds() * sinf(glm::radians(-m_rotation.y));
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-        {
-            m_position.x -= MovementSpeed * elapsed.asSeconds() * cosf(glm::radians(-m_rotation.y));
-            m_position.z += MovementSpeed * elapsed.asSeconds() * sinf(glm::radians(-m_rotation.y));
-        }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::LControl))
-        {
-            m_position.y -= MovementSpeed * elapsed.asSeconds();
-        }
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-        {
-            m_position.y += MovementSpeed * elapsed.asSeconds();
-        }
-
         // Get the offset between mouse movements then add them to rotation
         sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
         sf::Vector2i screenCenter = sf::Vector2i(window->getSize().x / 2, window->getSize().y / 2);
@@ -75,6 +44,9 @@ public:
 
     glm::vec3 getPosition() { return m_position; }
     glm::vec3 getRotation() { return m_rotation; }
+
+    void updatePosition(glm::vec3 position) { m_position = position; }
+    void updateRotation(glm::vec3 rotation) { m_rotation = rotation; }
 
 private:
     glm::vec3 m_position;

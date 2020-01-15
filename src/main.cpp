@@ -1,6 +1,7 @@
 #include "window/window.h"
 #include "util/Ray.h"
 #include "util/Cube.h"
+#include "util/Player.h"
 
 #include "world/ChunkManager.h"
 
@@ -8,11 +9,12 @@
 
 int main()
 {
-    Window window(1280, 720, "My window");
+    Window window(1280, 720, "Woxel");
 
     gl::Shader shader;
     shader.setAttribute(0, "position");
     shader.setAttribute(1, "textureCoords");
+    shader.setAttribute(2, "normals");
     
     shader.createProgram("deps/glsl/shader1");
 
@@ -42,6 +44,8 @@ int main()
     simple_shader.Unbind();
 
     Camera camera;
+    Player player(&camera);
+    player.m_collisions = true;
 
     // Used when the player presses left mouse click
     glm::vec3 rayLastPosition;
@@ -58,6 +62,9 @@ int main()
         
     bool wireframe = false;
     bool running = true;
+
+    window.EnableVSync(true);
+
     while (running)
     {
         sf::Event e;
@@ -163,7 +170,7 @@ int main()
 
         window.clear();
 
-        camera.Update(elapsed, window.getWindow(), 25);
+        player.Update(&chunk_manager, elapsed, window.getWindow(), 10);
 
         // ...Drawing
         auto Draw = [&](Entity* entity, gl::Shader* shader, gl::Texture* texture)

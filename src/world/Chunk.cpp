@@ -69,7 +69,7 @@ void Chunk::Chunk::generateTerrain(float freq, float minAmp, float maxAmp)
             // Save random tree locations
             float rand = Math::fRandom(0, 1);
             if (x == 0 || x == Width - 1 || z == 0 || z == Depth - 1) continue;
-            else if (rand >= 0.99) treeLocations.push_back({ x, height - 1, z });
+            else if (rand >= 0.99) treeLocations.push_back({ x, height, z });
         }
     }
 
@@ -109,6 +109,7 @@ void Chunk::Chunk::generateChunkMesh()
 {
     // Generate mesh by only drawing the faces if there aren't any blocks next to them
     std::vector<GLfloat> temp_verticies;
+    std::vector<GLfloat> temp_normals;
     std::vector<GLuint> temp_indicies;
     std::vector<GLfloat> temp_textureCoords;
     int indicieCount = 0;
@@ -127,6 +128,13 @@ void Chunk::Chunk::generateChunkMesh()
                         temp_verticies.push_back(face.verticies[0 + i * 3] + x);
                         temp_verticies.push_back(face.verticies[1 + i * 3] + y);
                         temp_verticies.push_back(face.verticies[2 + i * 3] + z);
+                    }
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        temp_normals.push_back(face.normals[0]);
+                        temp_normals.push_back(face.normals[1]);
+                        temp_normals.push_back(face.normals[2]);
                     }
 
                     // Use the texture atlas for each face
@@ -172,6 +180,7 @@ void Chunk::Chunk::generateChunkMesh()
     m_entity.setEBO(temp_indicies, GL_DYNAMIC_DRAW);
     m_entity.setVBO(temp_verticies, 0, 3, GL_DYNAMIC_DRAW);
     m_entity.setVBO(temp_textureCoords, 1, 2, GL_DYNAMIC_DRAW);
+    m_entity.setVBO(temp_textureCoords, 2, 3, GL_DYNAMIC_DRAW);
 }
 
 void Chunk::Chunk::generateTrees(std::vector< glm::ivec3> treeLocations)

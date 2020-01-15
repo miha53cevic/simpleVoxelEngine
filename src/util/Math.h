@@ -87,6 +87,7 @@ public:
             max += amp;
             total += glm::simplex(glm::vec2(x * freq, y * freq)) * amp;
         }
+        // Map from [-1, 1] to [0, 1]
         return (1 + total / max) / 2;
     }
 
@@ -104,6 +105,7 @@ public:
             max += amp;
             total += glm::simplex(glm::vec3(x * freq, y * freq, z * freq)) * amp;
         }
+        // Map from [-1, 1] to [0, 1]
         return (1 + total / max) / 2;
     }
 };

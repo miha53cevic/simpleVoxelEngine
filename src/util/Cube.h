@@ -7,6 +7,7 @@ namespace Cube
     struct Face
     {
         std::vector<GLfloat> verticies;
+		std::vector<GLfloat> normals;
 
         // Indicies and textureCoords of each face are the same
         std::vector<GLuint>  indicies = {
@@ -36,6 +37,9 @@ namespace Cube
                     0,0,0,
                     0,1,0
                 },
+                {
+                    0,0,-1
+                }
             };
         else if (face == CubeFace::FRONT)
             return Face{
@@ -44,6 +48,9 @@ namespace Cube
                     0,0,1,
                     1,0,1,
                     1,1,1
+                },
+                {
+                    0,0,1
                 }
             };
         else if (face == CubeFace::RIGHT)
@@ -53,6 +60,9 @@ namespace Cube
                     1,0,1,
                     1,0,0,
                     1,1,0
+                },
+                {
+                    1,0,0
                 }
             };
         else if (face == CubeFace::LEFT)
@@ -62,6 +72,9 @@ namespace Cube
                     0,0,0,
                     0,0,1,
                     0,1,1
+                },
+                {
+                    -1,0,0
                 }
             };
         else if (face == CubeFace::TOP)
@@ -70,6 +83,9 @@ namespace Cube
                     0,1,1,
                     1,1,1,
                     1,1,0,
+                    0,1,0
+                },
+                {
                     0,1,0
                 }
             };
@@ -80,6 +96,9 @@ namespace Cube
                     0,0,0,
                     1,0,0,
                     1,0,1
+                },
+                {
+                    0,-1,0
                 }
             };
     }

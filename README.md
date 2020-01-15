@@ -21,3 +21,7 @@ A voxel like game made whilst learning opengl
 ### Added layers to the chunks
 
 ![](screenshots/added_layers.png)
+
+### Added simple collision detection and trees
+
+![](screenshots/added_collisions_and_trees.png)
