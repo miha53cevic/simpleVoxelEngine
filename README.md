@@ -25,3 +25,7 @@ A voxel like game made whilst learning opengl
 ### Added simple collision detection and trees
 
 ![](screenshots/added_collisions_and_trees.png)
+
+### Added block placing with right click
+
+![](screenshots/added_block_placing.png)

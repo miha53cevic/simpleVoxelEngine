@@ -16,7 +16,7 @@ struct Player
         , m_jumping(false)
     {}
 
-    void Update(ChunkManager* manager, sf::Time elapsed, sf::Window* window, float MovementSpeed = 10, float Sensetivity = 0.25f)
+    void Update(ChunkManager* manager, sf::Time elapsed, sf::Window* window, float MovementSpeed = 10, float jumpSpeed = 10, float Sensetivity = 0.25f)
     {
         glm::vec3 m_rotation = m_camera->getRotation();
 
@@ -48,7 +48,7 @@ struct Player
             if (m_toggleSpaceKey.isKeyPressed() && !m_jumping)
             {
                 m_jumping = true;
-                m_velocity.y = MovementSpeed * elapsed.asSeconds() * m_height;
+                m_velocity.y = jumpSpeed * elapsed.asSeconds() * m_height;
             }
 
             // TODO: GO for a fixed time step
@@ -63,10 +63,6 @@ struct Player
             int h = manager->getChunksSize().y;
             int d = manager->getChunksSize().z;
 
-            int x = static_cast<int>(movedPos.x);
-            int y = static_cast<int>(movedPos.y);
-            int z = static_cast<int>(movedPos.z);
-
             // Add extra offset to movedPos because the camera clips the faces otherwise
             // check if we need to add + or - offset depending on the direction we are moving to so (newPos - curPos)
             if (movedPos.x - m_position.x < 0)
@@ -80,7 +76,7 @@ struct Player
                 movedPos.z += 0.2f;
 
 
-            if (x >= 0 && y >= 0 && z >= 0 && x < Chunk::Width * w && y < Chunk::Height * h && z < Chunk::Depth * d)
+            if (movedPos.x >= 0 && movedPos.y >= 0 && movedPos.z >= 0 && movedPos.x < Chunk::Width * w && movedPos.y < Chunk::Height * h && movedPos.z < Chunk::Depth * d)
             {
                 // NOTE: The player is 2 blocks in height so we have to check 2 blocks for x, y, z
 
@@ -109,6 +105,11 @@ struct Player
                     m_velocity.z = 0;
                 if (manager->getBlock(m_position.x, m_position.y - m_height, movedPos.z) != BLOCK::AIR)
                     m_velocity.z = 0;
+            }
+            else
+            {
+                // If outside the world bounds, disable movement
+                m_velocity = { 0,0,0 };
             }
 
             // Update the position
