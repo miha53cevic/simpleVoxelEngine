@@ -4,13 +4,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "glm/gtc/noise.hpp"
 
-#include "Camera.h"
+#include "../../player/Camera.h"
 
 #include <random>
 
 struct Math
 {
-public:
     Math() {}
 
     glm::mat4x4 static createTransformationMatrix(glm::vec3 translation, glm::vec3 rotation, glm::vec3 scale)

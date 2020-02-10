@@ -2,14 +2,14 @@
 #include "Camera.h"
 #include "../world/ChunkManager.h"
 #include "../world/BlockManager.h"
-#include "ToggleKey.h"
+#include "../util/ToggleKey.h"
 
 struct Player
 {
     Player(Camera* cam)
         : m_camera(cam)
         , m_height(1.5f)
-        , m_position(0, 128, 0)
+        , m_position(1, Chunk::Height - 1, 1)
         , m_velocity(0, 0, 0)
         , m_toggleSpaceKey(sf::Keyboard::Space)
         , m_collisions(false)

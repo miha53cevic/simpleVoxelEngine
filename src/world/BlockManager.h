@@ -10,7 +10,8 @@ enum BLOCK
     DIRT  = 2,
     STONE = 3,
     WOOD  = 4,
-    LEAF  = 5
+    LEAF  = 5,
+    PLANKS = 6
 };
 
 namespace BlockManager
@@ -49,6 +50,11 @@ namespace BlockManager
 
         case BLOCK::LEAF:
             return glm::ivec2(6, 0);
+
+            break;
+
+        case BLOCK::PLANKS:
+            return glm::ivec2(7, 0);
 
             break;
         }

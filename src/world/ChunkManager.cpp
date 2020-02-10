@@ -31,7 +31,7 @@ void ChunkManager::generate(int width, int height, int depth, gl::TextureAtlas* 
 
     // Generate terrain for each chunk
     for (auto& chunk : m_chunks)
-        chunk->generateTerrain(24, 8, Chunk::Height - 64);
+        chunk->generateTerrain(24, 8, Chunk::Height - 8);
 }
 
 void ChunkManager::render(gl::Shader * shader, gl::Texture * texture, Camera * camera)
@@ -96,9 +96,9 @@ bool ChunkManager::hasNeighbour(Chunk::Chunk * chunk, Direction dir)
 {
     glm::vec3 pos = chunk->getEntity()->position;
     
-    if (dir == Direction::WEST && (pos.x - 1)  / Chunk::Width >= 0)             return true;
+    if (dir == Direction::WEST && (pos.x - 1)  / Chunk::Width >= 0)                        return true;
     if (dir == Direction::EAST && (pos.x + Chunk::Width)  / Chunk::Width < m_chunksSize.x) return true;
-    if (dir == Direction::NORTH && (pos.z - 1) / Chunk::Depth >= 0)             return true;
+    if (dir == Direction::NORTH && (pos.z - 1) / Chunk::Depth >= 0)                        return true;
     if (dir == Direction::SOUTH && (pos.z + Chunk::Depth) / Chunk::Depth < m_chunksSize.z) return true;
 
     return false;

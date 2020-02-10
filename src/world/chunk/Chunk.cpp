@@ -1,8 +1,8 @@
 #include "Chunk.h"
 
-#include "../util/Cube.h"
-#include "ChunkManager.h"
-#include "BlockManager.h"
+#include "../../util/Cube.h"
+#include "../ChunkManager.h"
+#include "../BlockManager.h"
 
 Chunk::Chunk::Chunk(gl::TextureAtlas * atlas, ChunkManager* manager)
     : m_textureAtlas(atlas)
@@ -180,7 +180,6 @@ void Chunk::Chunk::generateChunkMesh()
     m_entity.setEBO(temp_indicies, GL_DYNAMIC_DRAW);
     m_entity.setVBO(temp_verticies, 0, 3, GL_DYNAMIC_DRAW);
     m_entity.setVBO(temp_textureCoords, 1, 2, GL_DYNAMIC_DRAW);
-    m_entity.setVBO(temp_textureCoords, 2, 3, GL_DYNAMIC_DRAW);
 }
 
 void Chunk::Chunk::generateTrees(std::vector< glm::ivec3> treeLocations)

@@ -1,6 +1,5 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <memory>
 #include <SFML/Graphics.hpp>
 
 class Camera

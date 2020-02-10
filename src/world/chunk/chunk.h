@@ -1,14 +1,14 @@
 #pragma once
 #include <cstdint>
 
-#include "Entity.h"
-#include "../util/Math.h"
+#include "../Entity.h"
+#include "../../util/math/Math.h"
 
 class ChunkManager;
 
 namespace Chunk
 {
-    const int Width = 16, Height = 128, Depth = 16;
+    const int Width = 16, Height = 32, Depth = 16;
 
     class Chunk
     {
