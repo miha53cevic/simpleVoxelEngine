@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # Name of the project
-project(Woxel)
+project(simpleVoxelEngine)
 
 #set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_BUILD_TYPE Release)
